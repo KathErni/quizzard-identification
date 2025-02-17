@@ -4,14 +4,16 @@ import { set, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // import ModalScore from "../shared/ModalScore";
 import { logout } from "../slices/authslice";
+import { interactiveButton, logoutButton } from "../Styles/styles";
 
 const ExamineePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const questions = useSelector((state) => state.questions.questions);
+  const {questions }= useSelector((state) => state.questions);
   const { register, handleSubmit } = useForm();
   const [score, setScore] = useState(null);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+
   const [pass, setPass] = useState(null);
 
   useEffect(() => {
@@ -58,21 +60,19 @@ const ExamineePage = () => {
   console.log("Questions in ExamineePage:", questions);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-theme-lightest p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-theme-purple p-8">
       {isAuthenticated && (
-        <div className="w-full flex justify-between items-center p-4 bg-theme-dark text-white fixed top-0 left-0">
+        <div className="w-full flex justify-between items-center p-4 bg-theme-lightpurple text-white fixed top-0 left-0">
           <span className="text-lg">Welcome, {user.username}</span>
           <button
             onClick={handleLogout}
-            className="bg-theme-light text-theme-dark py-2 px-4 rounded hover:bg-theme-base"
+            className={logoutButton}
           >
             Logout
           </button>
         </div>
       )}
-      <h1 className="text-2xl font-bold mb-4 text-theme-dark mt-16">
-        Examinee Page
-      </h1>
+
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
         {questions.map((q, index) => (
           <div key={index} className="mb-4 bg-white shadow-md rounded p-4">
@@ -86,15 +86,10 @@ const ExamineePage = () => {
           </div>
         ))}
         <div className="flex flex-col items-center justify-center bg-theme-lightest">
-          <button type="submit" className="bg-theme-base text-white py-2 px-4">
+          <button type="submit" className={interactiveButton}>
             Submit
           </button>
-          <button
-            onClick={handleGoBack}
-            className="bg-theme-dark text-white py-2 px-4 mt-4"
-          >
-            Back to Choices
-          </button>
+          
         </div>
       </form>
       {/* {score !== null && (
