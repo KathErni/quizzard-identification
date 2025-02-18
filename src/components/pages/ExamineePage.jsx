@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { set, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-// import ModalScore from "../shared/ModalScore";
+import ModalScore from "../pages/ModalScore";
+
 import { logout } from "../slices/authslice";
 import { interactiveButton, logoutButton } from "../Styles/styles";
 
 const ExamineePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {questions }= useSelector((state) => state.questions);
-  const { register, handleSubmit } = useForm();
+  const { questions } = useSelector((state) => state.questions);
+  const { register, handleSubmit, reset } = useForm();
   const [score, setScore] = useState(null);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
-  const [pass, setPass] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -24,7 +23,6 @@ const ExamineePage = () => {
   });
   const onSubmit = (data) => {
     let newScore = 0;
-    const passingGrade = questions.length / 2;
     questions.forEach((q, index) => {
       if (
         data[`answer${index}`] &&
@@ -34,14 +32,6 @@ const ExamineePage = () => {
       }
     });
     setScore(newScore);
-
-    if (passingGrade <= newScore) {
-      setPass(true);
-    } else setPass(false);
-  };
-
-  const handleGoBack = () => {
-    navigate("/choices");
   };
 
   const handleLogout = () => {
@@ -53,9 +43,10 @@ const ExamineePage = () => {
     setScore(null);
   };
 
-  // const closeModal = () => {
-  //   setScore(null);
-  // };
+  const closeModal = () => {
+    setScore(null);
+    reset();
+  };
 
   console.log("Questions in ExamineePage:", questions);
 
@@ -64,10 +55,7 @@ const ExamineePage = () => {
       {isAuthenticated && (
         <div className="w-full flex justify-between items-center p-4 bg-theme-lightpurple text-white fixed top-0 left-0">
           <span className="text-lg">Welcome, {user.username}</span>
-          <button
-            onClick={handleLogout}
-            className={logoutButton}
-          >
+          <button onClick={handleLogout} className={logoutButton}>
             Logout
           </button>
         </div>
@@ -89,12 +77,9 @@ const ExamineePage = () => {
           <button type="submit" className={interactiveButton}>
             Submit
           </button>
-          
         </div>
       </form>
-      {/* {score !== null && (
-        <ModalScore score={score} closeModal={closeModal} passed={pass} />
-      )} */}
+      {score !== null && <ModalScore score={score} totalQuestions={questions.length} closeModal={closeModal} />}
     </div>
   );
 };

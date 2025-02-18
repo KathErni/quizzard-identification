@@ -11,24 +11,30 @@ const HomePage = () => {
 
   useEffect(() => {
     questions.length === 0 ? setDisableButton(true) : setDisableButton(false);
-  });
+  }, [questions.length]);
 
   return (
-    <div className="bg-theme-purple min-h-screen">
-      <div className=" grid mx-40">
-        <header className=" grid p-3 text-center text-white">
-          <p className="text-6xl font-redressed m-5">Welcome to Quizzard</p>
-          <p className="my-3 font-mono">
-            Test your Knownledge and become a Quiz Wizard{" "}
+    <div className="bg-theme-purple min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-4xl mx-auto">
+        <header className="text-center text-white mb-8">
+          <p className="text-4xl md:text-8xl font-redressed m-5">
+            Welcome to Quizzard
+          </p>
+          <p className="my-3 font-mono text-lg md:text-xl">
+            Test your Knowledge and become a Quiz Wizard!
           </p>
         </header>
 
-        <div className=" grid grid-flow-col">
-          <img src={Logo} className={center}></img>
+        <div className="flex flex-col md:flex-row items-center justify-center">
+          <img
+            src={Logo}
+            className="w-48 md:w-64 mb-8 md:mb-0"
+            alt="Quizzard Logo"
+          />
 
-          <section className=" grid items-center p-3">
-            <div className="grid">
-              <p className=" text-left text-white font-mono">
+          <section className="flex flex-col items-center p-3">
+            <div className="grid gap-4">
+              <p className="text-left text-white font-mono text-lg md:text-xl">
                 Select your role below:
               </p>
               <button

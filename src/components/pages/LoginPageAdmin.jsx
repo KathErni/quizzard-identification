@@ -46,13 +46,14 @@ const LoginPageAdmin = () => {
                 <div className="mb-4">
                   <label className=" text-black">Username</label>
                   <input
+                    value="admin"
                     id="username"
                     type="text"
                     placeholder="Enter username here"
                     {...register("username", {
                       required: "Username is required",
                     })}
-                    className="text-theme-purple p-2 w-full"
+                    className="text-theme-purple p-2 w-full rounded border border-gray-400"
                   />
                   {errors.username && (
                     <span className="text-red-500">
@@ -61,17 +62,18 @@ const LoginPageAdmin = () => {
                   )}
                 </div>
                 <div className="mb-5">
-                  <label htmlFor="password" className=" text-black ">
+                  <label htmlFor="password" className=" text-black  ">
                     Password
                   </label>
                   <input
+                    value="123"
                     id="password"
                     type="password"
                     placeholder="Enter password"
                     {...register("password", {
                       required: "Password is required",
                     })}
-                    className="text-theme-purple p-2 w-full "
+                    className="text-theme-purple p-2 w-full rounded border border-gray-400 "
                   />
                   {errors.password && (
                     <span className="text-red-500">
