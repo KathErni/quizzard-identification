@@ -1,90 +1,99 @@
-import { createSlice } from "@reduxjs/toolkit";
-import {
-  fetchQuestions,
-  postQuestion,
-  putQuestion,
-  deleteQuestions,
-} from "./action";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
+export const fetchQuestions = createAsyncThunk(
+  "questions/fetchQuestions",
+  async () => {
+    const res = await axios.get(`https://localhost:7273/api/Quizzes`);
+    return res.data;
+  }
+);
+
+export const postQuestion = createAsyncThunk(
+  "questions/PostQuestions",
+  async (question) => {
+    const res = await axios.post(
+      `https://localhost:7273/api/Quizzes`,
+      question
+    );
+    return res.data;
+  }
+);
+
+export const putQuestion = createAsyncThunk(
+  "questions/PutQuestions",
+  async (question) => {
+    const res = await axios.put(
+      `https://localhost:7273/api/Quizzes/${question.quizId}`,
+      question
+    );
+
+    return { index: question.index, question };
+  }
+);
+
+export const deleteQuestions = createAsyncThunk(
+  "questions/DeleteQuestion",
+  async (index, { getState }) => {
+    const { questions } = getState().questions;
+    const question = questions[index];
+    const res = await axios.delete(
+      `https://localhost:7273/api/Quizzes/${question.quizId}`
+    );
+    return index;
+  }
+);
 const questionsSlice = createSlice({
   name: "questions",
   initialState: {
     questions: [],
-    loading: false,
     error: null,
   },
-  reducers: {
-    //Front End set only
-    // addQuestion: (state, action) => {
-    //   state.questions.push(action.payload);
-    // },
-    // deleteQuestion: (state, action) => {
-    //   state.questions.splice(action.payload, 1);
-    // },
-    // updateQuestion: (state, action) => {
-    //   // console.log("Action: ", action);
-    //   // const { index, newQuestion } = action.payload;
-    //   // state.questions[index] = newQuestion;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      // .addCase(fetchQuestions.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
+      //Fetch/GET
+      .addCase(fetchQuestions.pending, (state) => {
+        state.error = null;
+      })
       .addCase(fetchQuestions.fulfilled, (state, action) => {
-        state.loading = false;
         state.questions = action.payload;
       })
       .addCase(fetchQuestions.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.error.message;
       })
-      // .addCase(postQuestion.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
+      //Post/CREATE
+      .addCase(postQuestion.pending, (state) => {
+        state.error = null;
+      })
       .addCase(postQuestion.fulfilled, (state, action) => {
-        state.loading = false;
         state.questions.push(action.payload);
       })
       .addCase(postQuestion.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.error.message;
       })
-      // .addCase(putQuestion.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
+      //Put/UPDATE
+      .addCase(putQuestion.pending, (state) => {
+        state.error = null;
+      })
       .addCase(putQuestion.fulfilled, (state, action) => {
-        state.loading = false;
         const { index, question } = action.payload;
-        console.log("Action: ", action);
         state.questions[index] = question;
       })
       .addCase(putQuestion.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.error.message;
       })
+      //Delete
       .addCase(deleteQuestions.pending, (state) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(deleteQuestions.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.error.message;
       })
-     .addCase(deleteQuestions.fulfilled, (state, action) => {
-        state.loading = false;
-        console.log("Action: ", action);
+      .addCase(deleteQuestions.fulfilled, (state, action) => {
         state.questions.splice(action.payload, 1);
       });
-     
-     
   },
 });
 
-export const { addQuestion, deleteQuestion, updateQuestion } =
-  questionsSlice.actions;
 export default questionsSlice.reducer;

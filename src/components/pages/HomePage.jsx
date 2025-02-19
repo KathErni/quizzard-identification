@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Quizzard_New.png";
-import { interactiveButton, center } from "../Styles/styles";
+import { interactiveButton, center, titleFont } from "../Styles/styles";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
@@ -17,7 +17,7 @@ const HomePage = () => {
     <div className="bg-theme-purple min-h-screen flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl mx-auto">
         <header className="text-center text-white mb-8">
-          <p className="text-4xl md:text-8xl font-redressed m-5">
+          <p className={titleFont}>
             Welcome to Quizzard
           </p>
           <p className="my-3 font-mono text-lg md:text-xl">

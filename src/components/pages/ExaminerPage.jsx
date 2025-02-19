@@ -6,19 +6,21 @@ import {
   postQuestion,
   putQuestion,
   deleteQuestions,
-} from "../slices/action";
+} from "../slices/questionslice";
 
 import { useNavigate } from "react-router-dom";
 import { logout } from "../slices/authslice";
-import { logoutButton } from "../Styles/styles";
+import { logoutButton, titleFont } from "../Styles/styles";
 
 const ExaminerPage = () => {
   const dispatch = useDispatch();
-  const { questions, loading, error } = useSelector((state) => state.questions);
-  const { register, handleSubmit, setValue, reset } = useForm();
   const navigate = useNavigate();
+
+  const { questions, error } = useSelector((state) => state.questions);
+  const { register, handleSubmit, setValue, reset } = useForm();
   const [quizId, setQuizId] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
+
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -30,12 +32,6 @@ const ExaminerPage = () => {
     }
   }, [dispatch, isAuthenticated, navigate]);
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center h-screen bg-theme-purple">
-        <p className="text-5xl text-white font-redressed">Loading...</p>
-      </div>
-    );
   if (error)
     return (
       <div className="flex justify-center items-center h-screen bg-theme-purple">
@@ -68,10 +64,6 @@ const ExaminerPage = () => {
     setValue("answer", questionToEdit.answer);
     setEditIndex(index);
     setQuizId(questionToEdit.quizId);
-
-    if (index == null) {
-      alert("Question has been updated");
-    }
   };
 
   const handleDelete = (index) => {
@@ -84,7 +76,7 @@ const ExaminerPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-theme-purple p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-theme-purple p-4 md:p-8">
       {isAuthenticated && (
         <div className="w-full flex justify-between items-center p-4 bg-theme-lightpurple text-white fixed top-0 left-0">
           <span className="text-lg font-mono">
@@ -96,10 +88,9 @@ const ExaminerPage = () => {
         </div>
       )}
 
-      <div className="border bg-theme-blue bg-opacity-30 p-10 w-full max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold mb-4 text-white font-redressed w-full text-center">
-          Teacher's Workspace
-        </h1>
+      <div className="border bg-theme-blue bg-opacity-30 p-6 md:p-10 w-full max-w-4xl my-10 overflow-hidden">
+        <h1 className={titleFont}>Teacher's Workspace</h1>
+
         <form onSubmit={handleSubmit(onSubmit)} className="mb-4 w-full">
           <input
             type="text"
@@ -114,16 +105,16 @@ const ExaminerPage = () => {
             {...register("answer", { required: true })}
             className="rounded-lg p-2 w-full bg-theme-purple text-white mb-5"
           />
-          <div className="flex justify-between">
+          <div className="flex flex-col md:flex-row justify-between space-y-2 md:space-y-0">
             <button
               type="submit"
-              className="bg-theme-orange rounded-2xl text-white p-2 px-10 ml-2 font-bold font-mono"
+              className="bg-theme-orange rounded-2xl text-white p-2 px-10 font-bold font-mono"
             >
               {editIndex !== null ? "Update Question" : "Add Question"}
             </button>
             <button
               type="reset"
-              className="bg-theme-pink rounded-2xl text-white p-2 px-10 ml-2 font-mono"
+              className="bg-theme-pink rounded-2xl text-white p-2 px-10 font-mono"
               onClick={() => reset()}
             >
               Reset Values
@@ -132,16 +123,17 @@ const ExaminerPage = () => {
         </form>
       </div>
 
-      <div className="w-full p-10 max-w-4xl mx-auto">
+      <h1 className={titleFont}> Questions</h1>
+      <div className="p-6 md:p-10 max-w-4xl mx-auto">
         {questions.map((q, index) => (
           <div
             key={index}
-            className="mb-2 flex flex-col md:flex-row text-theme-dark items-center space-x-3"
+            className="mb-4 flex flex-col md:flex-row text-theme-dark items-center space-y-4 md:space-y-0 md:space-x-4"
           >
-            <div className="flex-grow border p-5 bg-white rounded-lg mb-4 md:mb-0">
+            <div className="flex-grow border p-5 bg-white rounded-lg">
               <p className="font-bold">{q.question}</p>
               <p>Answer: {q.answer}</p>
-              <div className="flex-shrink-0 flex space-x-5 justify-end">
+              <div className="flex-shrink-0 flex space-x-4 justify-end mt-4 md:mt-0">
                 <button
                   onClick={() => {
                     handleEdit(index);

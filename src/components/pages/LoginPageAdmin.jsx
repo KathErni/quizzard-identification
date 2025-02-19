@@ -17,9 +17,8 @@ const LoginPageAdmin = () => {
   const onSubmit = (data) => {
     const hardcodedUser = {
       username: "admin",
-      password: "123",
+      password: "password123",
     };
-    //Include DB to store username and password
     if (
       data.username === hardcodedUser.username &&
       data.password === hardcodedUser.password
@@ -46,7 +45,6 @@ const LoginPageAdmin = () => {
                 <div className="mb-4">
                   <label className=" text-black">Username</label>
                   <input
-                    value="admin"
                     id="username"
                     type="text"
                     placeholder="Enter username here"
@@ -66,7 +64,6 @@ const LoginPageAdmin = () => {
                     Password
                   </label>
                   <input
-                    value="123"
                     id="password"
                     type="password"
                     placeholder="Enter password"
@@ -87,7 +84,7 @@ const LoginPageAdmin = () => {
               </form>
             </div>
           </header>
-        </div>
+        </div>S
       </main>
     </>
   );

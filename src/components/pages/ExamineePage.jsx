@@ -48,8 +48,6 @@ const ExamineePage = () => {
     reset();
   };
 
-  console.log("Questions in ExamineePage:", questions);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-theme-purple p-8">
       {isAuthenticated && (
@@ -61,7 +59,13 @@ const ExamineePage = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-md sm:max-w-lg overflow-hidden"
+      >
+        <h2 className="text-xl text-white font-mono text-left mb-4">
+          Identification: Fill in the blanks with the correct answers.
+        </h2>
         {questions.map((q, index) => (
           <div key={index} className="mb-4 bg-white shadow-md rounded p-4">
             <span className="text-theme-dark block mb-2">{q.question}</span>
@@ -73,13 +77,21 @@ const ExamineePage = () => {
             />
           </div>
         ))}
+
         <div className="flex flex-col items-center justify-center bg-theme-lightest">
           <button type="submit" className={interactiveButton}>
             Submit
           </button>
         </div>
       </form>
-      {score !== null && <ModalScore score={score} totalQuestions={questions.length} closeModal={closeModal} />}
+
+      {score !== null && (
+        <ModalScore
+          score={score}
+          totalQuestions={questions.length}
+          closeModal={closeModal}
+        />
+      )}
     </div>
   );
 };
