@@ -34,7 +34,7 @@ const UserPage = () => {
   return (
     <>
       <main>
-        <div className="grid items-center min-h-screen bg-theme-purple text-center">
+        <div className="grid items-center min-h-screen bg-wizard-bg text-center">
           <header>
             <div className=" grid grid-flow-col items-center justify-center text-white">
               <h1 className="text-5xl font-bold mx-5"> </h1>

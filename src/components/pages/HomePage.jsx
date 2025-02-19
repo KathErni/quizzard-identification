@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Quizzard_New.png";
-import { interactiveButton, center, titleFont } from "../Styles/styles";
+import { interactiveButton, titleFont } from "../Styles/styles";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {

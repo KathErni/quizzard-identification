@@ -33,7 +33,7 @@ const LoginPageAdmin = () => {
   return (
     <>
       <main>
-        <div className="grid items-center min-h-screen bg-theme-purple">
+        <div className=" grid items-center min-h-screen bg-wizard-bg">
           <header>
             <div className=" grid grid-flow-col items-center justify-center text-white">
               <h1 className="text-5xl font-bold mx-5">Login </h1>
@@ -84,7 +84,7 @@ const LoginPageAdmin = () => {
               </form>
             </div>
           </header>
-        </div>S
+        </div>
       </main>
     </>
   );

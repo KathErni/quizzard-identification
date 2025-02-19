@@ -15,9 +15,12 @@ module.exports = {
           white: "#ffffff",
         },
       },
-      fontFamily :{
-        redressed: ["redressed","sans-serif"],
-    }
+      fontFamily: {
+        redressed: ["redressed", "sans-serif"],
+      },
+      backgroundImage: (theme) => ({
+        "wizard-bg": "url('/src/assets/Bg.png')",
+      }),
     },
   },
   plugins: [require("@tailwindcss/typography")],
